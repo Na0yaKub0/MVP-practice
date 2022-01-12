@@ -1,9 +1,6 @@
 package com.example.mvp.main
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,27 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.example.mvp.R
-import com.example.mvp.data.local.PreferenceManager
-import com.example.mvp.data.remote.api_client.ApiClientManager
-import java.net.URL
-import kotlin.concurrent.thread
+
 
 
 class MainFragment: Fragment(),MainContract.View {
-
+    //②overrideしたContract.presenter(MainContract.Presenter)を導入。
     override lateinit var presenter: MainContract.Presenter
-
     lateinit var editText :EditText
     lateinit var button :Button
     lateinit var textView :TextView
-
-    lateinit var bookTitleTextView :TextView
-    lateinit var bookImageView :ImageView
-    lateinit var bookPriceTextView :TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,38 +35,17 @@ class MainFragment: Fragment(),MainContract.View {
         button = view.findViewById<Button>(R.id.button)
         textView = view.findViewById<TextView>(R.id.textView)
 
-        bookTitleTextView = view.findViewById<TextView>(R.id.bookTitleTextView)
-        bookImageView = view.findViewById<ImageView>(R.id.bookImageView)
-        bookPriceTextView = view.findViewById<TextView>(R.id.bookPriceTextView)
-
-        presenter = MainPresenter(this, PreferenceManager(requireContext()),ApiClientManager())
-        
+        //③起動時にpresenterをインスタンス化
+        presenter = MainPresenter(this)
+        //⑤presenter.startを呼び出す。
         presenter.start()
-
         button.setOnClickListener{
+            //⑤presenter.onClickButtonを呼び出す。
             presenter.onClickButton(editText.text.toString())
         }
     }
-
-
-
+    //④TextViewに文字を表示させる
     override fun showTextView(text: String) {
         textView.text = text
     }
-
-    override fun showBookTitleTextView(text: String) {
-        bookTitleTextView.text = text
-    }
-
-    override fun showBookPriceTextView(text: String) {
-        bookPriceTextView.text = text
-    }
-
-    override fun showBookImageView(bitmap: Bitmap) {
-        activity?.runOnUiThread {
-            bookImageView.setImageBitmap(bitmap)
-        }
-    }
-
-
 }
