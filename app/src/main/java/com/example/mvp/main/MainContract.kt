@@ -10,12 +10,6 @@ interface MainContract {
 
         fun showTextView (text: String)
 
-        fun showBookTitleTextView (text: String)
-
-        fun showBookPriceTextView (text: String)
-
-        fun showBookImageView (bitmap: Bitmap)
-
     }
 
     interface Presenter: BasePresenter {
