@@ -13,19 +13,12 @@ import java.util.concurrent.TimeUnit
 
 class ApiClientManager: RemoteRepository {
 
-    //Retrofitクラスのインスタンス化
     val retrofit = Retrofit.Builder()
-        //ベースURLを入力
         .baseUrl("https://app.rakuten.co.jp/services/api/BooksTotal/Search/")
-        //レスポンスを変換する設定を追加
         .addConverterFactory(GsonConverterFactory.create())
-        //Httpクライアント結合
         .client(getOkHttpClient())
-        //onResponseバックグラウンド処理
         .callbackExecutor(Executors.newSingleThreadExecutor())
         .build()
-
-    // サービスクラスの実装オブジェクト取得(インターフェイスを利用する)
     val apiClient:ApiService = retrofit.create(ApiService::class.java)
 
     private fun getOkHttpClient(): OkHttpClient {
@@ -36,9 +29,8 @@ class ApiClientManager: RemoteRepository {
         return httpClient
     }
 
-
+    //⑥本を検索するメソッド
     override fun getBooks(word: String, callback: Callback<BooksEntity>) {
         apiClient.getBooks(format = "json", keyword = word, booksGenreId = "000", sort = "standard").enqueue(callback)
     }
-
 }

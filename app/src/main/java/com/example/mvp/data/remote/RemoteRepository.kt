@@ -6,5 +6,6 @@ import retrofit2.Response
 
 interface RemoteRepository {
 
+    //④本を検索しデータを持ってくる。
     fun getBooks(word: String, callback: Callback<BooksEntity>)
 }

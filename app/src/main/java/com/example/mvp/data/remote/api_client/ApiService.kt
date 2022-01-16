@@ -6,7 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("")
+    //楽天BooksID
+    @GET("20170404?applicationId=楽天BooksID")
     fun getBooks(
         @Query("format") format:String,
         @Query("keyword") keyword:String,

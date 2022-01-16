@@ -24,11 +24,11 @@ import kotlin.concurrent.thread
 class MainFragment: Fragment(),MainContract.View {
 
     override lateinit var presenter: MainContract.Presenter
-
     lateinit var editText :EditText
     lateinit var button :Button
     lateinit var textView :TextView
 
+    //①追加したUIを獲得。
     lateinit var bookTitleTextView :TextView
     lateinit var bookImageView :ImageView
     lateinit var bookPriceTextView :TextView
@@ -48,38 +48,35 @@ class MainFragment: Fragment(),MainContract.View {
         button = view.findViewById<Button>(R.id.button)
         textView = view.findViewById<TextView>(R.id.textView)
 
+        //①追加したUIを獲得。
         bookTitleTextView = view.findViewById<TextView>(R.id.bookTitleTextView)
         bookImageView = view.findViewById<ImageView>(R.id.bookImageView)
         bookPriceTextView = view.findViewById<TextView>(R.id.bookPriceTextView)
 
+        //③Presenterに引数にApiClientManager()を追加。
         presenter = MainPresenter(this, PreferenceManager(requireContext()),ApiClientManager())
         
         presenter.start()
-
         button.setOnClickListener{
             presenter.onClickButton(editText.text.toString())
         }
     }
-
-
-
     override fun showTextView(text: String) {
         textView.text = text
     }
 
+    //②bookTitleTextViewに本のタイトルを表示する。
     override fun showBookTitleTextView(text: String) {
         bookTitleTextView.text = text
     }
-
+    //②bookPriceTextViewに本の値段を表示する。
     override fun showBookPriceTextView(text: String) {
         bookPriceTextView.text = text
     }
-
+    //②bookImageViewに本の画像を表示させる。
     override fun showBookImageView(bitmap: Bitmap) {
         activity?.runOnUiThread {
             bookImageView.setImageBitmap(bitmap)
         }
     }
-
-
 }
