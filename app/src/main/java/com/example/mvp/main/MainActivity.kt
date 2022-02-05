@@ -4,36 +4,49 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mvp.R
 
-class MainActivity : AppCompatActivity(), MainContract.Activity {
+class MainActivity : AppCompatActivity(), MainContract.View ,MainContract.RecyclerView {
 
     //②overrideしたContract.presenter(MainContract.Presenter)を追加。
     override lateinit var presenter: MainContract.Presenter
-
-    lateinit var activityTextView : TextView
-    lateinit var activityButton : Button
+    lateinit var addButton : Button
+    lateinit var recyclerView : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //③Fragment設定(引数に自分を入れる)。
-        val transition = supportFragmentManager.beginTransaction()
-        transition.add(R.id.fragmentLayout, MainFragment(this))
-        transition.commit()
-
-
-        activityTextView = findViewById(R.id.activityTextView)
-        activityButton = findViewById(R.id.activityButton)
-
-        activityButton.setOnClickListener {
-            //⑤presenter.onClickActivityButtonを呼び出す。
-            presenter.onClickActivityButton()
+        addButton = findViewById(R.id.addButton)
+        recyclerView = findViewById(R.id.recyclerView)
+        presenter = MainPresenter(this)
+        presenter.start()
+        addButton.setOnClickListener {
+            presenter.onClickAddButton()
         }
     }
-    //④ActivityTextViewに文字を表示させる
-    override fun showActivityTextView(text: String) {
-        activityTextView.text = text
+
+    //③RecyclerViewをセットする
+    override fun setRecyclerView(rvList: ArrayList<String>) {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setPadding(10,20,10,0)
+        val dividerItemDecoration = DividerItemDecoration(this, LinearLayoutManager(this).getOrientation())
+        getDrawable(R.drawable.divider)?.let { dividerItemDecoration.setDrawable(it) }
+        recyclerView.addItemDecoration(dividerItemDecoration)
+        var adapter = RvAdapter(this, rvList, applicationContext)
+        recyclerView.adapter = adapter
+    }
+
+    //③RecyclerViewを更新する
+    override fun updateRecyclerView(rvList: ArrayList<String>) {
+        var adapter = RvAdapter(this, rvList, applicationContext)
+        recyclerView.adapter = adapter
+    }
+    //③✖︎ボタンが押された時呼び出される
+    override fun onClickCellDeleteButton(position: Int) {
+        presenter.onClickCellDeleteButton(position)
     }
 }

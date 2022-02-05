@@ -6,21 +6,22 @@ import com.example.mvp.util.BaseView
 
 interface MainContract {
 
-    interface Activity: BaseView<Presenter> {
-        //③Activity側のTextViewをテキストを表示するメソッド
-        fun showActivityTextView (text: String)
+    interface RecyclerView {
+        //③✖︎ボタンクリックされた際にview側に渡すメソッド
+        fun onClickCellDeleteButton (position: Int)
     }
 
-    interface Fragment: BaseView<Presenter> {
-        //③Fragment側のTextViewをテキストを表示するメソッド
-        fun showFragmentTextView (text: String)
-
+    interface View: BaseView<Presenter> {
+        //③RecyclerViewを初期化するメソッド
+        fun setRecyclerView (rvList: ArrayList<String>)
+        //③RecyclerViewを更新するメソッド
+        fun updateRecyclerView (rvList: ArrayList<String>)
     }
 
     interface Presenter: BasePresenter {
-        //③Activity側のButoonをクリックされた際に使用するメソッド
-        fun onClickActivityButton ()
-        //③Fragment側のButoonをクリックされた際に使用するメソッド
-        fun onClickFragmentButton ()
+        //③Activity側のaddButoonをクリックされた際に使用するメソッド
+        fun onClickAddButton ()
+        //③RecyclerViewの✖︎Butoonをクリックされた際に使用するメソッド
+        fun onClickCellDeleteButton (position: Int)
     }
 }

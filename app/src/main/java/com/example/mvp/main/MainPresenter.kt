@@ -3,33 +3,29 @@ package com.example.mvp.main
 
 
 
-class MainPresenter(private val activity: MainContract.Activity,
-                    private val fragment: MainContract.Fragment): MainContract.Presenter {
+class MainPresenter(private val view: MainContract.View): MainContract.Presenter {
+    var rvList = ArrayList<String>()
 
-    //数字をカウントする変数
-    var cnt = 0
-
-    //初期化
+    //④view.presenter = thisに設定。
     init {
-        //⑤activity.presenter = thisに設定。
-        activity.presenter = this
-        //⑥fragment.presenter = thisに設定。
-        fragment.presenter = this
+        view.presenter = this
     }
 
-    //⑦Activity側のボタンが押された時の処理
-    override fun onClickActivityButton() {
-        cnt += 1
-        activity.showActivityTextView(cnt.toString())
-        fragment.showFragmentTextView(cnt.toString())
-    }
-    //⑦Fragment側のボタンが押された時の処理
-    override fun onClickFragmentButton() {
-        cnt += 10
-        activity.showActivityTextView(cnt.toString())
-        fragment.showFragmentTextView(cnt.toString())
+    //⑤追加ボタンが押された時の処理
+    override fun onClickAddButton() {
+        rvList.add("✖️")
+        view.updateRecyclerView(rvList)
     }
 
+    //⑤✖︎ボタンが押された時の処理
+    override fun onClickCellDeleteButton(position: Int) {
+        rvList.removeAt(position)
+        view.updateRecyclerView(rvList)
+
+    }
+
+    //⑤起動時の処理
     override fun start() {
+        view.setRecyclerView(rvList)
     }
 }
