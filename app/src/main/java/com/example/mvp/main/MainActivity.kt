@@ -11,6 +11,9 @@ class MainActivity : AppCompatActivity(), MainContract.Activity {
     //②overrideしたContract.presenter(MainContract.Presenter)を追加。
     override lateinit var presenter: MainContract.Presenter
 
+    //空のフラグメントを用意する。
+    var mainFragment : MainFragment? = null
+
     lateinit var activityTextView : TextView
     lateinit var activityButton : Button
 
@@ -35,5 +38,18 @@ class MainActivity : AppCompatActivity(), MainContract.Activity {
     //④ActivityTextViewに文字を表示させる
     override fun showActivityTextView(text: String) {
         activityTextView.text = text
+    }
+
+    //④子viewを獲得しPresenterを起動させる。
+    override fun getFragment(fragment: MainFragment) {
+        mainFragment = fragment
+        initPresenter()
+    }
+
+    private fun initPresenter() {
+        //子Viewがnulじゃない場合、Presenterを起動する。
+        if (mainFragment != null) {
+            presenter = MainPresenter(this, mainFragment!!)
+        }
     }
 }

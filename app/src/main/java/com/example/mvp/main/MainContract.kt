@@ -9,12 +9,13 @@ interface MainContract {
     interface Activity: BaseView<Presenter> {
         //③Activity側のTextViewをテキストを表示するメソッド
         fun showActivityTextView (text: String)
+        //③子Viewを受け取るメソッド
+        fun getFragment(fragment: MainFragment)
     }
 
     interface Fragment: BaseView<Presenter> {
         //③Fragment側のTextViewをテキストを表示するメソッド
         fun showFragmentTextView (text: String)
-
     }
 
     interface Presenter: BasePresenter {
