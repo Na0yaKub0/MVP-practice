@@ -6,16 +6,13 @@ import com.example.mvp.util.BaseView
 
 interface MainContract {
 
-    interface RecyclerView {
-        //③✖︎ボタンクリックされた際にview側に渡すメソッド
-        fun onClickCellDeleteButton (position: Int)
-    }
-
     interface View: BaseView<Presenter> {
         //③RecyclerViewを初期化するメソッド
         fun setRecyclerView (rvList: ArrayList<String>)
         //③RecyclerViewを更新するメソッド
         fun updateRecyclerView (rvList: ArrayList<String>)
+        //③✖︎ボタンクリックされた際にview側に渡すメソッド
+        fun onClickCellDeleteButton (position: Int)
     }
 
     interface Presenter: BasePresenter {

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvp.R
 
-class MainActivity : AppCompatActivity(), MainContract.View ,MainContract.RecyclerView {
+class MainActivity : AppCompatActivity(), MainContract.View {
 
     //②overrideしたContract.presenter(MainContract.Presenter)を追加。
     override lateinit var presenter: MainContract.Presenter
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), MainContract.View ,MainContract.Recycl
         var adapter = RvAdapter(this, rvList, applicationContext)
         recyclerView.adapter = adapter
     }
+
     //③✖︎ボタンが押された時呼び出される
     override fun onClickCellDeleteButton(position: Int) {
         presenter.onClickCellDeleteButton(position)

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvp.R
 
-class RvAdapter(private val litner: MainContract.RecyclerView,
+class RvAdapter(private val litner: MainContract.View,
                 private val List: ArrayList<String>,
                 private val context: Context): RecyclerView.Adapter<RvAdapter.ViewHolder>(){
 
