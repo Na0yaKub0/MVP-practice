@@ -36,7 +36,7 @@ class MainFragment: Fragment(),MainContract.View {
         textView = view.findViewById<TextView>(R.id.textView)
 
         //③起動時にpresenterをインスタンス化
-        presenter = MainPresenter(this)
+        initPresenter()
         //⑤presenter.startを呼び出す。
         presenter.start()
         button.setOnClickListener{
@@ -47,5 +47,12 @@ class MainFragment: Fragment(),MainContract.View {
     //④TextViewに文字を表示させる
     override fun showTextView(text: String) {
         textView.text = text
+    }
+
+    fun initPresenter() {
+        if (::presenter.isInitialized) {
+            return
+        }
+        presenter = MainPresenter(this)
     }
 }
