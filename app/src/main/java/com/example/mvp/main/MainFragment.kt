@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.mvp.R
 
 
-class MainFragment(private val activity: MainContract.Activity) : Fragment(), MainContract.Fragment {
+class MainFragment : Fragment(), MainContract.Fragment {
 
     ////⑤overrideしたContract.presenter(MainContract.Presenter)を追加。
     override lateinit var presenter: MainContract.Presenter
@@ -31,7 +31,11 @@ class MainFragment(private val activity: MainContract.Activity) : Fragment(), Ma
         fragmentTextView = view.findViewById(R.id.fragmentTextView)
         fragmentButton = view.findViewById(R.id.fragmentButton)
         //④fragmentを親Viewに渡す。
-        activity.getFragment(this)
+        activity?.let {
+            if (it is MainActivity) {
+                it.initPresenter(this)
+            }
+        }
 
         fragmentButton.setOnClickListener {
             //⑦presenter.onClickFragmentButtonを呼び出す。

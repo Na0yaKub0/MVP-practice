@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity(), MainContract.Activity {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //③Fragment設定(引数に自分を入れる)。
+
         val transition = supportFragmentManager.beginTransaction()
-        transition.add(R.id.fragmentLayout, MainFragment(this))
+        transition.add(R.id.fragmentLayout, MainFragment())
         transition.commit()
 
 
@@ -40,13 +40,11 @@ class MainActivity : AppCompatActivity(), MainContract.Activity {
         activityTextView.text = text
     }
 
-    //④子viewを獲得しPresenterを起動させる。
-    override fun getFragment(fragment: MainFragment) {
-        mainFragment = fragment
-        initPresenter()
-    }
-
-    private fun initPresenter() {
+    fun initPresenter(main : MainFragment? = null) {
+        if (::presenter.isInitialized) {
+            return
+        }
+        this.mainFragment = main
         //子Viewがnulじゃない場合、Presenterを起動する。
         if (mainFragment != null) {
             presenter = MainPresenter(this, mainFragment!!)
