@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         addButton = findViewById(R.id.addButton)
         recyclerView = findViewById(R.id.recyclerView)
-        presenter = MainPresenter(this)
+        initPresenter()
         presenter.start()
         addButton.setOnClickListener {
             presenter.onClickAddButton()
@@ -49,5 +49,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     //③✖︎ボタンが押された時呼び出される
     override fun onClickCellDeleteButton(position: Int) {
         presenter.onClickCellDeleteButton(position)
+    }
+    fun initPresenter() {
+        if (::presenter.isInitialized) {
+            return
+        }
+        presenter = MainPresenter(this)
     }
 }
