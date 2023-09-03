@@ -44,7 +44,9 @@ class MainActivity : AppCompatActivity(), MainContract.Activity {
         if (::presenter.isInitialized) {
             return
         }
-        this.mainFragment = main
+        main?.let {
+            this.mainFragment = it
+        }
         //子Viewがnulじゃない場合、Presenterを起動する。
         if (mainFragment != null) {
             presenter = MainPresenter(this, mainFragment!!)
