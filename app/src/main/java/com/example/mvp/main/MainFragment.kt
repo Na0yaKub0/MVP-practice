@@ -38,7 +38,7 @@ class MainFragment: Fragment(),MainContract.View {
         textView = view.findViewById<TextView>(R.id.textView)
 
         //①Presenterに引数にpreferenceManagerを追加
-        presenter = MainPresenter(this, PreferenceManager(requireContext()))
+        initPresenter()
         
         presenter.start()
 
@@ -49,4 +49,14 @@ class MainFragment: Fragment(),MainContract.View {
     override fun showTextView(text: String) {
         textView.text = text
     }
+
+    fun initPresenter() {
+        if (::presenter.isInitialized) {
+            return
+        }
+        context?.let {
+            presenter = MainPresenter(this, PreferenceManager(it))
+        }
+    }
+
 }
