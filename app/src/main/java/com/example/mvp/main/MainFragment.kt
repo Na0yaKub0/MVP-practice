@@ -54,7 +54,7 @@ class MainFragment: Fragment(),MainContract.View {
         bookPriceTextView = view.findViewById<TextView>(R.id.bookPriceTextView)
 
         //③Presenterに引数にApiClientManager()を追加。
-        presenter = MainPresenter(this, PreferenceManager(requireContext()),ApiClientManager())
+        initPresenter()
         
         presenter.start()
         button.setOnClickListener{
@@ -77,6 +77,14 @@ class MainFragment: Fragment(),MainContract.View {
     override fun showBookImageView(bitmap: Bitmap) {
         activity?.runOnUiThread {
             bookImageView.setImageBitmap(bitmap)
+        }
+    }
+    fun initPresenter() {
+        if (::presenter.isInitialized) {
+            return
+        }
+        context?.let {
+            presenter = MainPresenter(this, PreferenceManager(it),ApiClientManager())
         }
     }
 }
